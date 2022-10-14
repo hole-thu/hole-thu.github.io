@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.bc4a919d.css",
-    "main.js": "./static/js/main.38fb8339.js",
+    "main.css": "./static/css/main.e6649bcc.css",
+    "main.js": "./static/js/main.217702d8.js",
     "static/media/loading.gif": "./static/media/loading.706124a2c0232f216d63.gif",
     "static/media/KaTeX_AMS-Regular.ttf": "./static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "service-worker.js": "./service-worker.js",
@@ -21,6 +21,7 @@
     "static/media/KaTeX_SansSerif-Bold.ttf": "./static/media/KaTeX_SansSerif-Bold.5b49f4993ae22d7975b4.ttf",
     "static/media/KaTeX_SansSerif-Italic.ttf": "./static/media/KaTeX_SansSerif-Italic.b257a18c016f37ee4543.ttf",
     "static/media/KaTeX_Main-Italic.woff": "./static/media/KaTeX_Main-Italic.fd947498bc16392e76c2.woff",
+    "static/media/icomoon.svg?yqy2se": "./static/media/icomoon.d1d70b71b0f2ba04baec.svg",
     "static/media/KaTeX_Fraktur-Bold.ttf": "./static/media/KaTeX_Fraktur-Bold.4c761b3711973ab04edf.ttf",
     "static/media/KaTeX_Fraktur-Regular.ttf": "./static/media/KaTeX_Fraktur-Regular.ed305b5434865e06ffde.ttf",
     "static/media/KaTeX_SansSerif-Regular.ttf": "./static/media/KaTeX_SansSerif-Regular.2f7bc363fc5424ebda59.ttf",
@@ -33,7 +34,6 @@
     "static/media/KaTeX_Math-Italic.woff2": "./static/media/KaTeX_Math-Italic.6d3d25f4820d0da8f01f.woff2",
     "static/media/KaTeX_Math-BoldItalic.woff2": "./static/media/KaTeX_Math-BoldItalic.dcbcbd93bac0470b462d.woff2",
     "static/media/KaTeX_Typewriter-Regular.woff": "./static/media/KaTeX_Typewriter-Regular.4c6b94fd1d07f8beff7c.woff",
-    "static/media/icomoon.svg?8qh3rt": "./static/media/icomoon.fc7cf582d35aa8fd56de.svg",
     "static/media/KaTeX_SansSerif-Bold.woff": "./static/media/KaTeX_SansSerif-Bold.b9cd458ac6d5889ff9c3.woff",
     "static/media/KaTeX_SansSerif-Italic.woff": "./static/media/KaTeX_SansSerif-Italic.8d593cfaa96238d5e2f8.woff",
     "static/media/KaTeX_Typewriter-Regular.woff2": "./static/media/KaTeX_Typewriter-Regular.c295e7f71970f03c0549.woff2",
@@ -52,14 +52,15 @@
     "static/media/KaTeX_Size4-Regular.ttf": "./static/media/KaTeX_Size4-Regular.4ad7c7e8bb8d10a34bb7.ttf",
     "static/media/KaTeX_SansSerif-Regular.woff2": "./static/media/KaTeX_SansSerif-Regular.cd5e231e0cc53b2cb2c0.woff2",
     "static/media/KaTeX_Script-Regular.woff2": "./static/media/KaTeX_Script-Regular.c81d1b2a4b75d3eded60.woff2",
+    "static/media/icomoon.eot?yqy2se": "./static/media/icomoon.9c736f3d3987f2014c0e.eot",
     "static/media/KaTeX_Caligraphic-Bold.woff": "./static/media/KaTeX_Caligraphic-Bold.d757c535a2e5902f1325.woff",
     "static/media/KaTeX_Caligraphic-Regular.woff": "./static/media/KaTeX_Caligraphic-Regular.db074fa22cf224af93d7.woff",
+    "static/media/icomoon.woff?yqy2se": "./static/media/icomoon.0419b9223c5a4448462b.woff",
     "static/media/KaTeX_Size3-Regular.ttf": "./static/media/KaTeX_Size3-Regular.8d6b6822586eea3d3b20.ttf",
+    "static/media/icomoon.ttf?yqy2se": "./static/media/icomoon.f1d1bb4b71ddbc785036.ttf",
     "static/media/KaTeX_Caligraphic-Bold.woff2": "./static/media/KaTeX_Caligraphic-Bold.a1abf90dfd72792a577a.woff2",
     "static/media/KaTeX_Caligraphic-Regular.woff2": "./static/media/KaTeX_Caligraphic-Regular.d6484fce1ef428d5bd94.woff2",
-    "static/media/icomoon.woff?8qh3rt": "./static/media/icomoon.0a988df6f6153d4e51aa.woff",
     "static/media/KaTeX_Size1-Regular.woff": "./static/media/KaTeX_Size1-Regular.0108e89c9003e8c14ea3.woff",
-    "static/media/icomoon.ttf?8qh3rt": "./static/media/icomoon.1a22f7da8f36400b0eac.ttf",
     "static/media/KaTeX_Size2-Regular.woff": "./static/media/KaTeX_Size2-Regular.3a99e70aee4076660d38.woff",
     "static/media/KaTeX_Size4-Regular.woff": "./static/media/KaTeX_Size4-Regular.aeffd8025cba3647f1a6.woff",
     "static/media/KaTeX_Size1-Regular.woff2": "./static/media/KaTeX_Size1-Regular.6eec866c69313624be60.woff2",
@@ -70,7 +71,7 @@
     "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.bc4a919d.css",
-    "static/js/main.38fb8339.js"
+    "static/css/main.e6649bcc.css",
+    "static/js/main.217702d8.js"
   ]
 }
