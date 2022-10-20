@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.b7340113.css",
-    "main.js": "./static/js/main.4647fe2a.js",
+    "main.css": "./static/css/main.b44deff2.css",
+    "main.js": "./static/js/main.cc7522ec.js",
     "static/media/loading.gif": "./static/media/loading.706124a2c0232f216d63.gif",
     "static/media/KaTeX_AMS-Regular.ttf": "./static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "service-worker.js": "./service-worker.js",
@@ -71,7 +71,7 @@
     "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.b7340113.css",
-    "static/js/main.4647fe2a.js"
+    "static/css/main.b44deff2.css",
+    "static/js/main.cc7522ec.js"
   ]
 }
