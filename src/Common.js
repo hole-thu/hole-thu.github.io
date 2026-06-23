@@ -309,7 +309,14 @@ export class HighlightedMarkdown extends Component {
                     ) : rule === 'search' ? (
                       <span className="search-query-highlight">{p}</span>
                     ) : rule === 'tag' ? (
-                      <a href={p}>{p}</a>
+                      <a
+                        href={p}
+                        onClick={() => {
+                          window.SEARCH_SUBMODE_BACKUP = 0;
+                        }}
+                      >
+                        {p}
+                      </a>
                     ) : (
                       p
                     )}

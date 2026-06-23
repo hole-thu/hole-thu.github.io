@@ -1430,7 +1430,10 @@ export class Flow extends PureComponent {
     super(props);
     let submode = window[props.mode.toUpperCase() + '_SUBMODE_BACKUP'];
     if (submode === undefined) {
-      submode = props.mode === 'list' ? (window.config.by_c ? 1 : 0) : 0;
+      submode =
+        (props.mode === 'list' && window.config.by_c) || props.mode === 'search'
+          ? 1
+          : 0;
     }
     this.state = {
       submode: submode,
