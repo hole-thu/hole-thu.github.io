@@ -18,11 +18,12 @@
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  inset: -30vh -30vw;
   z-index: 9999;
   pointer-events: none;
   background-image: url('images/watermark.svg');
   background-repeat: repeat;
+  transform: rotate(-30deg);
 }
 
 body.root-dark-mode::after {
