@@ -84,52 +84,53 @@ export class MessageViewer extends PureComponent {
     else if (this.state.loading_status === 'done')
       return (
         <>
-          <br />
-          <p>
-            最近一次重置 <Time stamp={this.state.start_time} short={false} />
-          </p>
-          <p>
-            重置后用户数(非实时): <b>{this.state.user_count}</b>
-          </p>
-          <p>
-            随机盐 <b>{this.state.salt}</b>
-          </p>
-          <br />
-          <div>
-            <p>15分钟临时token:</p>
-            <div className="input-prepend">{this.state.tmp_token}_ </div>
-            <input
-              type="text"
-              className="input-suf"
-              ref={this.input_suf_ref}
-              placeholder="自定义后缀"
-              maxLength={10}
-            />
-            <button
-              type="button"
-              disabled={this.state.loading_status === 'loading'}
-              onClick={(e) => this.do_set_token()}
-            >
-              使用
-            </button>
-          </div>
-          <br />
-          <div>
-            当前管理员:
-            {this.state.admin_list.map((admin) => (
-              <span className="admin-card" key={admin}>
-                {admin}
-              </span>
-            ))}
-          </div>
-          <br />
-          <div>
-            当前候选管理员:
-            {this.state.candidate_list.map((admin) => (
-              <span className="admin-card" key={admin}>
-                {admin}
-              </span>
-            ))}
+          <div className="box">
+            <br />
+            <p>
+              最近一次重置 <Time stamp={this.state.start_time} short={false} />
+            </p>
+            <p>
+              重置后用户数(非实时): <b>{this.state.user_count}</b>
+            </p>
+            <p>
+              随机盐 <b>{this.state.salt}</b>
+            </p>
+            <br />
+            <div>
+              <p>15分钟临时token:</p>
+              <div className="input-prepend">{this.state.tmp_token}_ </div>
+              <input
+                type="text"
+                className="input-suf"
+                ref={this.input_suf_ref}
+                placeholder="自定义后缀"
+                maxLength={10}
+              />
+              <button
+                type="button"
+                disabled={this.state.loading_status === 'loading'}
+                onClick={(e) => this.do_set_token()}
+              >
+                使用
+              </button>
+            </div>
+            <br />
+            <div>
+              当前管理员:
+              {this.state.admin_list.map((admin) => (
+                <span className="admin-card" key={admin}>
+                  {admin}
+                </span>
+              ))}
+            </div>
+            <div>
+              当前候选管理员:
+              {this.state.candidate_list.map((admin) => (
+                <span className="admin-card" key={admin}>
+                  {admin}
+                </span>
+              ))}
+            </div>
           </div>
           {this.state.msg.map((msg) => (
             <div className="box" key={msg.type + msg.timestamp}>
