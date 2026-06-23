@@ -16,20 +16,23 @@
 }
 
 .black-outline {
-  text-shadow: /* also change .flow-item-row-with-prompt:hover::before */ -1px -1px
-      0 rgba(0, 0, 0, 0.6),
-    0 -1px 0 rgba(0, 0, 0, 0.6), 1px -1px 0 rgba(0, 0, 0, 0.6),
-    -1px 1px 0 rgba(0, 0, 0, 0.6), 0 1px 0 rgba(0, 0, 0, 0.6),
+  text-shadow: /* also change .flow-item-row-with-prompt:hover::before */
+    -1px -1px 0 rgba(0, 0, 0, 0.6),
+    0 -1px 0 rgba(0, 0, 0, 0.6),
+    1px -1px 0 rgba(0, 0, 0, 0.6),
+    -1px 1px 0 rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(0, 0, 0, 0.6),
     1px 1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .search-query-highlight {
-  border-bottom: 1px solid black;
-  font-weight: bold;
+  background-color: #fff3a3;
+  border-radius: 2px;
 }
 
 .root-dark-mode .search-query-highlight {
-  border-bottom: 1px solid white;
+  background-color: #665400;
+  color: #fff4b8;
 }
 
 .url-pid-link {
@@ -84,7 +87,7 @@ blockquote {
 }
 
 .icon-up-and-down:before {
-  content:"";
+  content: '';
   background-image: url('images/up_and_down.png');
   background-size: 18px 18px;
   width: 18px;
