@@ -94,7 +94,7 @@ function is_audio(s) {
 export function build_highlight_re(
   txt,
   split = ' ',
-  option = 'g',
+  option = 'gi',
   isRegex = false,
 ) {
   if (isRegex) {
@@ -228,7 +228,7 @@ export class HighlightedMarkdown extends Component {
               try {
                 search_re = new RegExp(
                   `(${props.search_param.slice(1, -1)})`,
-                  'g',
+                  'gi',
                 );
               } catch (e) {}
             } else {
@@ -240,7 +240,7 @@ export class HighlightedMarkdown extends Component {
                   `(${search_kws
                     .map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
                     .join('|')})`,
-                  'g',
+                  'gi',
                 );
               }
             }

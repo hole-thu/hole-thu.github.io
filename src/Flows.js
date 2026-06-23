@@ -1649,7 +1649,10 @@ class SubFlow extends PureComponent {
         let regex_search = /.+/;
         if (use_regex) {
           try {
-            regex_search = new RegExp(this.state.search_param.slice(1, -1));
+            regex_search = new RegExp(
+              this.state.search_param.slice(1, -1),
+              'i',
+            );
           } catch (e) {
             alert(`请检查正则表达式合法性！\n${e}`);
             regex_search = /.+/;
@@ -1673,10 +1676,11 @@ class SubFlow extends PureComponent {
                     ? json.data
                     : !use_regex
                     ? json.data.filter((post) => {
+                        const search_text = get_search_text(post).toLowerCase();
                         return this.state.search_param
                           .split(' ')
                           .every((keyword) =>
-                            get_search_text(post).includes(keyword),
+                            search_text.includes(keyword.toLowerCase()),
                           );
                       }) // Not using regex
                     : json.data.filter(
@@ -1730,10 +1734,12 @@ class SubFlow extends PureComponent {
                         ? json.data
                         : !use_regex
                         ? json.data.filter((post) => {
+                            const search_text =
+                              get_search_text(post).toLowerCase();
                             return this.state.search_param
                               .split(' ')
                               .every((keyword) =>
-                                get_search_text(post).includes(keyword),
+                                search_text.includes(keyword.toLowerCase()),
                               );
                           })
                         : json.data.filter(
