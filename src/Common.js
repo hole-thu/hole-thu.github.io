@@ -15,6 +15,20 @@ import { cache } from './cache';
 
 export { format_time, Time, TitleLine };
 
+const HIGHLIGHT_TEXT_PARENT_TAGS = new Set([
+  'p',
+  'li',
+  'blockquote',
+  'td',
+  'th',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+]);
+
 const pushServerPublicKey =
   'BLM6zZy2CWlsfQ9KsALDgrjPXBf8E3cJ7qQ5vZipN_IjOfeDXFjeYb_zRLzwglyiwr9QpVL9Lt1TS_sZKewJYuY';
 
@@ -194,7 +208,9 @@ export class HighlightedMarkdown extends Component {
       {
         shouldProcessNode(node) {
           return (
-            node.type === 'text' && node.parent && node.parent.name === 'p'
+            node.type === 'text' &&
+            node.parent &&
+            HIGHLIGHT_TEXT_PARENT_TAGS.has(node.parent.name)
           ); // pid, nickname, search
         },
         processNode(node, children, index) {
