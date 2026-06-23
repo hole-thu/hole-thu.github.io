@@ -207,19 +207,27 @@ export class HighlightedMarkdown extends Component {
             ['nickname', NICKNAME_RE],
           ];
           if (props.search_param) {
-            let search_kws = props.search_param
-              .split(/[\s()+-]+/)
-              .filter((s) => s && s !== 'AND' && s !== 'OR');
-            if (search_kws.length) {
-              rules.push([
-                'search',
-                new RegExp(
+            let search_re = null;
+            if (props.search_param.match(/\/.+\//)) {
+              try {
+                search_re = new RegExp(
+                  `(${props.search_param.slice(1, -1)})`,
+                  'g',
+                );
+              } catch (e) {}
+            } else {
+              let search_kws = props.search_param.split(/[\s()+-]+/);
+              if (search_kws.length) {
+                search_re = new RegExp(
                   `(${search_kws
                     .map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
                     .join('|')})`,
                   'g',
-                ),
-              ]);
+                );
+              }
+            }
+            if (search_re) {
+              rules.push(['search', search_re]);
             }
           }
           const splitted = split_text(originalText, rules);

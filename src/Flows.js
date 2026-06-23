@@ -33,6 +33,12 @@ window.LATEST_POST_ID = parseInt(localStorage['_LATEST_POST_ID'], 10) || 0;
 
 const DZ_NAME = '洞主';
 
+function get_search_text(post) {
+  return [post.text]
+    .concat((post.comments || []).map((comment) => comment.text))
+    .join('\n');
+}
+
 function check_block(info) {
   return (
     (((window.config.block_tmp || !window.config.show_all_rooms) &&
@@ -1666,10 +1672,12 @@ class SubFlow extends PureComponent {
                     ? json.data.filter((post) => {
                         return this.state.search_param
                           .split(' ')
-                          .every((keyword) => post.text.includes(keyword));
+                          .every((keyword) =>
+                            get_search_text(post).includes(keyword),
+                          );
                       }) // Not using regex
                     : json.data.filter(
-                        (post) => !!post.text.match(regex_search),
+                        (post) => !!get_search_text(post).match(regex_search),
                       ), // Using regex
                 },
                 mode: 'attention_finished',
@@ -1707,8 +1715,29 @@ class SubFlow extends PureComponent {
                 });
                 this.setState((prev, props) => ({
                   chunks: {
-                    title: 'Attention List: Local',
-                    data: prev.chunks.data.concat(json.data),
+                    title: `${
+                      use_search
+                        ? use_regex
+                          ? `Result for RegEx ${regex_search.toString()} in `
+                          : `Result for "${this.state.search_param}" in `
+                        : ''
+                    }Attention List: Local`,
+                    data: prev.chunks.data.concat(
+                      !use_search
+                        ? json.data
+                        : !use_regex
+                        ? json.data.filter((post) => {
+                            return this.state.search_param
+                              .split(' ')
+                              .every((keyword) =>
+                                get_search_text(post).includes(keyword),
+                              );
+                          })
+                        : json.data.filter(
+                            (post) =>
+                              !!get_search_text(post).match(regex_search),
+                          ),
+                    ),
                   },
                   loading_status: 'done',
                 }));
