@@ -232,8 +232,12 @@ export class HighlightedMarkdown extends Component {
                 );
               } catch (e) {}
             } else {
-              let search_kws = props.search_param
-                .split(/[\s()+-]+/)
+              let search_kws = (
+                props.search_param.match(/"[^"]*"|[^\s()+:"[\]-]+/g) || []
+              )
+                .map((s) =>
+                  s.startsWith('"') ? s.slice(1, -1) : s.split('^')[0],
+                )
                 .filter((s) => s);
               if (search_kws.length) {
                 search_re = new RegExp(
