@@ -148,8 +148,7 @@ export class HighlightedMarkdown extends Component {
       {
         shouldProcessNode: (node) => /^h[123456]$/.test(node.name),
         processNode(node, children, index) {
-          let currentLevel = +node.name[1];
-          if (currentLevel < 3) currentLevel = 3;
+          const currentLevel = Math.min(+node.name[1] + 2, 5);
           const HeadingTag = `h${currentLevel}`;
           return <HeadingTag key={index}>{children}</HeadingTag>;
         },
