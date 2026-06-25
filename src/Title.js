@@ -12,13 +12,24 @@ class ControlBar extends PureComponent {
     super(props);
     this.state = {
       search_text: '',
+      search_focused: false,
+      search_submitted: false,
     };
     this.set_mode = props.set_mode;
 
     this.on_change_bound = this.on_change.bind(this);
+    this.on_focus_bound = this.on_focus.bind(this);
+    this.on_blur_bound = this.on_blur.bind(this);
     this.on_keypress_bound = this.on_keypress.bind(this);
     this.do_refresh_bound = this.do_refresh.bind(this);
     this.do_attention_bound = this.do_attention.bind(this);
+  }
+
+  update_search_intro(search_text, search_focused, search_submitted) {
+    const has_search_text = search_text.trim().length > 0;
+    this.props.set_search_intro(
+      !search_submitted && (has_search_text || search_focused),
+    );
   }
 
   componentDidMount() {
@@ -60,13 +71,50 @@ class ControlBar extends PureComponent {
   }
 
   on_change(event) {
+    const search_text = event.target.value;
+    const search_submitted =
+      search_text.length === 0 ? false : this.state.search_submitted;
     this.setState({
-      search_text: event.target.value,
+      search_text: search_text,
+      search_submitted: search_submitted,
     });
+    this.update_search_intro(
+      search_text,
+      this.state.search_focused,
+      search_submitted,
+    );
+  }
+
+  on_focus() {
+    this.setState({
+      search_focused: true,
+    });
+    this.update_search_intro(
+      this.state.search_text,
+      true,
+      this.state.search_submitted,
+    );
+  }
+
+  on_blur(event) {
+    if (event.relatedTarget?.closest('.search-intro')) return;
+
+    this.setState({
+      search_focused: false,
+    });
+    this.update_search_intro(
+      this.state.search_text,
+      false,
+      this.state.search_submitted,
+    );
   }
 
   on_keypress(event) {
     if (event.key === 'Enter') {
+      this.setState({
+        search_submitted: true,
+      });
+      this.props.set_search_intro(false);
       let flag_res = flag_re.exec(this.state.search_text);
       if (flag_res) {
         if (flag_res[2]) {
@@ -102,7 +150,9 @@ class ControlBar extends PureComponent {
     window.scrollTo(0, 0);
     this.setState({
       search_text: '',
+      search_submitted: false,
     });
+    this.props.set_search_intro(false);
     this.set_mode('list', null);
     window.location.hash = '';
   }
@@ -111,7 +161,9 @@ class ControlBar extends PureComponent {
     window.scrollTo(0, 0);
     this.setState({
       search_text: '',
+      search_submitted: false,
     });
+    this.props.set_search_intro(false);
     this.set_mode('attention', null);
   }
 
@@ -147,6 +199,8 @@ class ControlBar extends PureComponent {
                   : '关键词 / tag / #树洞号'
               }
               onChange={this.on_change_bound}
+              onFocus={this.on_focus_bound}
+              onBlur={this.on_blur_bound}
               onKeyPress={this.on_keypress_bound}
             />
             <a
@@ -215,6 +269,7 @@ export function Title(props) {
         <ControlBar
           show_sidebar={props.show_sidebar}
           set_mode={props.set_mode}
+          set_search_intro={props.set_search_intro}
           mode={props.mode}
         />
       </div>

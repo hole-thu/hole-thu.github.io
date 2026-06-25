@@ -15,7 +15,9 @@
 .root-dark-mode .box {
   background-color: var(--box-bgcolor-dark);
   color: var(--foreground-dark);
-  box-shadow: 0 0 2px rgba(255, 255, 255, 0.25), 0 0 7px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 0 2px rgba(255, 255, 255, 0.25),
+    0 0 7px rgba(0, 0, 0, 0.15);
 }
 
 .box-tip {
@@ -92,9 +94,12 @@
     left: 10px;
     margin-top: 1.5em;
     color: white;
-    text-shadow: /* copied from .black-outline */ -1px -1px 0 rgba(0, 0, 0, 0.6),
-      0 -1px 0 rgba(0, 0, 0, 0.6), 1px -1px 0 rgba(0, 0, 0, 0.6),
-      -1px 1px 0 rgba(0, 0, 0, 0.6), 0 1px 0 rgba(0, 0, 0, 0.6),
+    text-shadow: /* copied from .black-outline */
+      -1px -1px 0 rgba(0, 0, 0, 0.6),
+      0 -1px 0 rgba(0, 0, 0, 0.6),
+      1px -1px 0 rgba(0, 0, 0, 0.6),
+      -1px 1px 0 rgba(0, 0, 0, 0.6),
+      0 1px 0 rgba(0, 0, 0, 0.6),
       1px 1px 0 rgba(0, 0, 0, 0.6);
     font-family: 'Consolas', 'Courier', monospace;
   }
@@ -204,6 +209,10 @@
 .left-container .box-content {
   max-height: calc(100vh + 15em);
   overflow-y: hidden;
+}
+
+.left-container .search-intro .box-content {
+  max-height: none;
 }
 
 .box-id {
@@ -429,7 +438,6 @@
 .root-dark-mode .vote-icon-inactive {
   stroke: #777;
 }
-
 
 .vote-icon-active {
   fill: #333;

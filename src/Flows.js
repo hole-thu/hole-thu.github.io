@@ -18,6 +18,7 @@ import { API, parse_replies } from './flows_api';
 import { cache } from './cache';
 import { save_attentions } from './Attention';
 import Poll from 'react-polls';
+import { SEARCH_INTRO_MARKDOWN } from './SearchIntro';
 
 /*
 const IMAGE_BASE = 'https://thimg.yecdn.com/';
@@ -1425,6 +1426,26 @@ function Announcement(props) {
   );
 }
 
+function SearchIntro() {
+  return (
+    <div className="flow-item-row search-intro">
+      <div className="flow-item">
+        <div className="box box-post">
+          <div className="box-post-main">
+            <div className="box-header">
+              <span className="icon icon-about" />
+              &nbsp;搜索指南
+            </div>
+            <div className="box-content">
+              <HighlightedMarkdown text={SEARCH_INTRO_MARKDOWN} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export class Flow extends PureComponent {
   constructor(props) {
     super(props);
@@ -1473,7 +1494,8 @@ export class Flow extends PureComponent {
 
   render() {
     const { submode, announcement } = this.state;
-    const { mode, show_sidebar, search_text, token } = this.props;
+    const { mode, show_sidebar, search_text, show_search_intro, token } =
+      this.props;
     const submode_names = this.get_submode_names(mode);
     return (
       <>
@@ -1503,6 +1525,7 @@ export class Flow extends PureComponent {
           mode={mode}
           submode={submode}
           search_text={search_text}
+          show_search_intro={show_search_intro}
           token={token}
         />
       </>
@@ -1809,9 +1832,11 @@ class SubFlow extends PureComponent {
   render() {
     const should_deletion_detect = localStorage['DELETION_DETECT'] === 'on';
     const { mode, chunks, local_attention_text, search_param } = this.state;
-    const { submode, show_sidebar } = this.props;
+    const { submode, show_sidebar, show_search_intro } = this.props;
     return (
       <div className="flow-container">
+        {show_search_intro && <SearchIntro />}
+
         {mode === 'attention' &&
           submode === 1 &&
           local_attention_text === null && (

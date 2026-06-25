@@ -33,11 +33,13 @@ class App extends Component {
       sidebar_stack: [[null, null]], // list of [status, content]
       mode: 'list', // list, single, search, attention
       search_text: null,
+      show_search_intro: false,
       flow_render_key: +new Date(),
       token: localStorage['TOKEN'] || null,
     };
     this.show_sidebar_bound = this.show_sidebar.bind(this);
     this.set_mode_bound = this.set_mode.bind(this);
+    this.set_search_intro_bound = this.set_search_intro.bind(this);
     this.on_pressure_bound = this.on_pressure.bind(this);
 
     window.BACKEND =
@@ -120,7 +122,14 @@ class App extends Component {
     this.setState({
       mode: mode,
       search_text: search_text,
+      show_search_intro: false,
       flow_render_key: +new Date(),
+    });
+  }
+
+  set_search_intro(show_search_intro) {
+    this.setState({
+      show_search_intro: show_search_intro,
     });
   }
 
@@ -142,6 +151,7 @@ class App extends Component {
         <Title
           show_sidebar={this.show_sidebar_bound}
           set_mode={this.set_mode_bound}
+          set_search_intro={this.set_search_intro_bound}
           mode={this.state.mode}
         />
         <TokenCtx.Consumer>
@@ -168,6 +178,7 @@ class App extends Component {
                   show_sidebar={this.show_sidebar_bound}
                   mode={this.state.mode}
                   search_text={this.state.search_text}
+                  show_search_intro={this.state.show_search_intro}
                   token={token.value}
                 />
               ) : (
