@@ -191,6 +191,22 @@ export const API = {
     return handle_response(response, false);
   },
 
+  update_room: async (room_id, id, token) => {
+    const data = new URLSearchParams([
+      ['room_id', room_id],
+      ['pid', id],
+    ]);
+    const response = await fetch(get_api_base() + '/editroom', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Token': token,
+      },
+      body: data,
+    });
+    return handle_response(response, false);
+  },
+
   get_list: async (page, token, submode, room) => {
     const room_id = get_room_id_for_query(room);
     let response = await fetch(

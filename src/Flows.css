@@ -300,6 +300,39 @@
   background: white;
 }
 
+.box-header-room-edit {
+  display: inline-block;
+  margin: 0 3px;
+}
+
+.box-header-room-edit input,
+.root-dark-mode .box-header-room-edit input {
+  font-size: inherit;
+  width: 2em;
+  padding: 0 3px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent !important;
+  color: var(--var-link-color);
+  appearance: textfield;
+}
+
+.box-header-room-edit input::-webkit-inner-spin-button,
+.box-header-room-edit input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.box-header-room-edit button {
+  font-size: 0.8em;
+  width: 2.5em;
+  margin-left: 3px;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .box-header-name {
   color: white;
   background-color: #3338;

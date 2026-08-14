@@ -209,6 +209,7 @@ class FlowItem extends PureComponent {
     super(props);
     this.state = {
       cw: props.info.cw || '',
+      room_id: props.info.room_id,
     };
   }
 
@@ -231,6 +232,18 @@ class FlowItem extends PureComponent {
     });
   }
 
+  on_room_change(event) {
+    this.setState({
+      room_id: event.target.value,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.info.room_id !== this.props.info.room_id) {
+      this.setState({ room_id: this.props.info.room_id });
+    }
+  }
+
   render() {
     const {
       info,
@@ -240,6 +253,7 @@ class FlowItem extends PureComponent {
       do_filter_name,
       do_delete,
       do_edit_cw,
+      do_edit_room,
       img_clickable,
       color_picker,
       show_pid,
@@ -248,7 +262,8 @@ class FlowItem extends PureComponent {
       do_react,
       search_param,
     } = this.props;
-    const { cw } = this.state;
+    const { cw, room_id } = this.state;
+    const parsed_room_id = parse_room(room_id);
     const _display_color = color_picker.get(DZ_NAME, info.is_tmp);
     return (
       <div className={'flow-item' + (is_quote ? ' flow-item-quote' : '')}>
@@ -361,6 +376,38 @@ class FlowItem extends PureComponent {
                     onClick={(e) => do_edit_cw(cw, info.pid)}
                   >
                     更新
+                  </button>
+                </div>
+              )}
+              {!!do_edit_room && (
+                <div className="box-header-room-edit clickable">
+                  <input
+                    aria-label="修改分区号"
+                    name="room_id"
+                    type="number"
+                    value={room_id}
+                    min="0"
+                    max={MAX_ROOM_ID}
+                    step="1"
+                    placeholder="分区号"
+                    onChange={this.on_room_change.bind(this)}
+                  />
+                  <button
+                    type="button"
+                    disabled={
+                      parsed_room_id === null || parsed_room_id === info.room_id
+                    }
+                    onClick={() => do_edit_room(parsed_room_id, info.pid)}
+                  >
+                    改
+                  </button>
+                  <button
+                    type="button"
+                    title="移至 0 分区"
+                    disabled={info.room_id === 0}
+                    onClick={() => do_edit_room(0, info.pid)}
+                  >
+                    0
                   </button>
                 </div>
               )}
@@ -747,6 +794,27 @@ class FlowSidebar extends PureComponent {
       });
   }
 
+  do_edit_room(room_id, id) {
+    API.update_room(room_id, id, this.props.token)
+      .then((json) => {
+        this.setState(
+          (prev) => ({
+            info: Object.assign({}, prev.info, { room_id: json.data }),
+          }),
+          () => {
+            this.syncState({
+              info: this.state.info,
+            });
+          },
+        );
+        alert('分区已更新');
+      })
+      .catch((e) => {
+        alert('更新分区失败\n' + e);
+        console.error(e);
+      });
+  }
+
   render() {
     if (this.state.loading_status === 'loading')
       return <p className="box box-tip">加载中……</p>;
@@ -795,6 +863,9 @@ class FlowSidebar extends PureComponent {
               window.location.reload();
             })}
             do_edit_cw={this.do_edit_cw.bind(this)}
+            do_edit_room={
+              this.state.info.can_edit_room && this.do_edit_room.bind(this)
+            }
             do_vote={this.do_vote.bind(this)}
             do_block={() => {
               this.block('洞主', 'post', this.state.info.pid, () => {
