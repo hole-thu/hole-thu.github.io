@@ -4,11 +4,12 @@ import { Title } from './Title';
 import { Sidebar } from './Sidebar';
 import { PressureHelper } from './PressureHelper';
 import { TokenCtx } from './UserAction';
-import { load_config, bgimg_style } from './Config';
+import { load_config, save_config, bgimg_style } from './Config';
 import { check_service_work_update } from './Common';
 import { load_attentions } from './Attention.js';
 import { listen_darkmode } from './infrastructure/functions';
 import { LoginPopup, TitleLine } from './infrastructure/widgets';
+import { normalize_room } from './rooms';
 
 const MAX_SIDEBAR_STACK_SIZE = 10;
 
@@ -36,10 +37,12 @@ class App extends Component {
       show_search_intro: false,
       flow_render_key: +new Date(),
       token: localStorage['TOKEN'] || null,
+      room: normalize_room(window.config.room),
     };
     this.show_sidebar_bound = this.show_sidebar.bind(this);
     this.set_mode_bound = this.set_mode.bind(this);
     this.set_search_intro_bound = this.set_search_intro.bind(this);
+    this.set_room_bound = this.set_room.bind(this);
     this.on_pressure_bound = this.on_pressure.bind(this);
 
     window.BACKEND =
@@ -133,6 +136,15 @@ class App extends Component {
     });
   }
 
+  set_room(room) {
+    const room_id = normalize_room(room);
+    window.config.room = room_id;
+    save_config(false);
+    this.setState({
+      room: room_id,
+    });
+  }
+
   render() {
     return (
       <TokenCtx.Provider
@@ -153,6 +165,7 @@ class App extends Component {
           set_mode={this.set_mode_bound}
           set_search_intro={this.set_search_intro_bound}
           mode={this.state.mode}
+          room={this.state.room}
         />
         <TokenCtx.Consumer>
           {(token) => (
@@ -177,6 +190,8 @@ class App extends Component {
                   key={this.state.flow_render_key}
                   show_sidebar={this.show_sidebar_bound}
                   mode={this.state.mode}
+                  room={this.state.room}
+                  set_room={this.set_room_bound}
                   search_text={this.state.search_text}
                   show_search_intro={this.state.show_search_intro}
                   token={token.value}

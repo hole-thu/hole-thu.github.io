@@ -373,6 +373,55 @@
   font-weight: bold;
 }
 
+.flow-room-choice {
+  display: block;
+  padding-left: 10px;
+  font-size: smaller;
+}
+
+.flow-room-choice a,
+.flow-room-choice a.choiced {
+  display: inline-block;
+  margin: 0 15px 0 0;
+}
+
+.flow-custom-room {
+  display: inline-block;
+  margin: 0 15px 0 0;
+  vertical-align: baseline;
+}
+
+.flow-custom-room input,
+.root-dark-mode .flow-custom-room input {
+  width: 6em;
+  padding: 0 0.5em;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent !important;
+  color: white;
+  font-size: 0.9em;
+  line-height: 1.5em;
+  vertical-align: baseline;
+  appearance: textfield;
+}
+
+.flow-custom-room input::placeholder,
+.root-dark-mode .flow-custom-room input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 1;
+}
+
+.flow-custom-room input::-webkit-inner-spin-button,
+.flow-custom-room input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.flow-room-choice + .flow-submode-choice {
+  margin-top: 0.75em;
+}
+
 .danger-info {
   color: red;
 }

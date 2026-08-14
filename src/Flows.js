@@ -19,6 +19,13 @@ import { cache } from './cache';
 import { save_attentions } from './Attention';
 import Poll from 'react-polls';
 import { SEARCH_INTRO_MARKDOWN } from './SearchIntro';
+import {
+  is_builtin_room,
+  MAX_ROOM_ID,
+  parse_room,
+  ROOMS,
+  should_show_all_rooms,
+} from './rooms';
 
 /*
 const IMAGE_BASE = 'https://thimg.yecdn.com/';
@@ -41,9 +48,12 @@ function get_search_text(post) {
 }
 
 function check_block(info) {
+  const show_all_rooms = should_show_all_rooms(
+    window.config.room,
+    window.config.show_all_rooms,
+  );
   return (
-    (((window.config.block_tmp || !window.config.show_all_rooms) &&
-      info.is_tmp) ||
+    (((window.config.block_tmp || !show_all_rooms) && info.is_tmp) ||
       window.config.block_words_v4.some((word) => info.text.includes(word)) ||
       (info.cw &&
         window.config.block_words_v4
@@ -1450,7 +1460,9 @@ export class Flow extends PureComponent {
   constructor(props) {
     super(props);
     let submode = window[props.mode.toUpperCase() + '_SUBMODE_BACKUP'];
-    if (submode === undefined) {
+    if (props.mode === 'list' && props.room === 0) {
+      submode = 0;
+    } else if (submode === undefined) {
       submode =
         (props.mode === 'list' && window.config.by_c) || props.mode === 'search'
           ? 1
@@ -1459,6 +1471,7 @@ export class Flow extends PureComponent {
     this.state = {
       submode: submode,
       announcement: window.ANN,
+      custom_room: is_builtin_room(props.room) ? '' : String(props.room),
     };
   }
 
@@ -1482,6 +1495,14 @@ export class Flow extends PureComponent {
     });
   }
 
+  set_custom_room(event) {
+    event.preventDefault();
+    const room = parse_room(this.state.custom_room);
+    if (room === null) return;
+    if (is_builtin_room(room)) this.setState({ custom_room: '' });
+    if (room !== this.props.room) this.props.set_room(room);
+  }
+
   update_announcement(text) {
     if (text !== this.state.announcement) {
       window.ANN = text;
@@ -1493,10 +1514,20 @@ export class Flow extends PureComponent {
   }
 
   render() {
-    const { submode, announcement } = this.state;
-    const { mode, show_sidebar, search_text, show_search_intro, token } =
-      this.props;
+    const { submode, announcement, custom_room } = this.state;
+    const {
+      mode,
+      room,
+      set_room,
+      show_sidebar,
+      search_text,
+      show_search_intro,
+      token,
+    } = this.props;
     const submode_names = this.get_submode_names(mode);
+    const effective_submode = mode === 'list' && room === 0 ? 0 : submode;
+    const show_submode_choice =
+      submode_names.length > 0 && !(mode === 'list' && room === 0);
     return (
       <>
         {announcement && window.LAST_ANN !== announcement && (
@@ -1505,25 +1536,64 @@ export class Flow extends PureComponent {
             show_pid={load_single_meta(show_sidebar, token)}
           />
         )}
-        <div className="aux-margin flow-submode-choice">
-          {submode_names.map((name, idx) => (
+        <div className="aux-margin flow-submode-choice flow-room-choice">
+          {ROOMS.map(({ id, name }) => (
             <a
               href="###"
-              key={idx}
-              className={submode === idx ? 'choiced' : ''}
-              onClick={this.set_submode.bind(this, idx)}
+              key={id}
+              className={room === id ? 'choiced' : ''}
+              onClick={(event) => {
+                event.preventDefault();
+                this.setState({ custom_room: '' });
+                set_room(id);
+              }}
             >
               {name}
             </a>
           ))}
+          <form
+            className="flow-custom-room"
+            onSubmit={this.set_custom_room.bind(this)}
+          >
+            <input
+              aria-label="其他分区号"
+              name="room_id"
+              type="number"
+              min="0"
+              max={MAX_ROOM_ID}
+              step="1"
+              required
+              placeholder="其他分区号"
+              value={custom_room}
+              onChange={(event) => {
+                this.setState({ custom_room: event.target.value });
+              }}
+              onBlur={this.set_custom_room.bind(this)}
+            />
+          </form>
         </div>
+        {show_submode_choice && (
+          <div className="aux-margin flow-submode-choice">
+            {submode_names.map((name, idx) => (
+              <a
+                href="###"
+                key={idx}
+                className={effective_submode === idx ? 'choiced' : ''}
+                onClick={this.set_submode.bind(this, idx)}
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        )}
 
         <SubFlow
-          key={submode}
+          key={`${room}-${effective_submode}`}
           show_sidebar={show_sidebar}
           update_announcement={(text) => this.update_announcement(text)}
           mode={mode}
-          submode={submode}
+          room={room}
+          submode={effective_submode}
           search_text={search_text}
           show_search_intro={show_search_intro}
           token={token}
@@ -1565,11 +1635,11 @@ class SubFlow extends PureComponent {
     if (page > this.state.loaded_pages + 1) throw new Error('bad page');
     if (page === this.state.loaded_pages + 1) {
       const { mode, search_param } = this.state;
-      const { token, submode, update_announcement } = this.props;
+      const { room, token, submode, update_announcement } = this.props;
       console.log('fetching page', page);
       cache();
       if (mode === 'list') {
-        API.get_list(page, token, submode)
+        API.get_list(page, token, submode, room)
           .then((json) => {
             if (page === 1 && json.data.length) {
               // update latest_post_id
@@ -1628,7 +1698,7 @@ class SubFlow extends PureComponent {
           })
           .catch(failed);
       } else if (mode === 'search' && search_param) {
-        API.get_search(page, search_param, token, submode)
+        API.get_search(page, search_param, token, submode, room)
           .then((json) => {
             const finished = json.data.length === 0;
             this.setState((prev, props) => ({

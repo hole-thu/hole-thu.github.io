@@ -227,6 +227,7 @@ class ControlBar extends PureComponent {
                     '发表树洞',
                     <PostForm
                       token={token}
+                      room={this.props.room}
                       on_complete={() => {
                         this.props.show_sidebar(null, null, 'clear');
                         this.do_refresh();
@@ -262,7 +263,7 @@ export function Title(props) {
               }
             >
               新T树洞
-              <sup>{window.config.room || '?'}</sup>
+              <sup>{props.room ?? '?'}</sup>
             </span>
           </p>
         </div>
@@ -271,6 +272,7 @@ export function Title(props) {
           set_mode={props.set_mode}
           set_search_intro={props.set_search_intro}
           mode={props.mode}
+          room={props.room}
         />
       </div>
     </div>

@@ -1,10 +1,14 @@
 import { get_json, gen_name } from './infrastructure/functions';
 import { get_api_base, get_api_base_2 } from './Common';
 import { cache } from './cache';
+import { should_show_all_rooms } from './rooms';
 
 export { get_json };
 
 const SEARCH_PAGESIZE = 50;
+
+const get_room_id_for_query = (room) =>
+  should_show_all_rooms(room, window.config.show_all_rooms) ? '' : room;
 
 const handle_response = async (response, notify = false) => {
   if (response.status === 401) {
@@ -187,11 +191,10 @@ export const API = {
     return handle_response(response, false);
   },
 
-  get_list: async (page, token, submode) => {
+  get_list: async (page, token, submode, room) => {
+    const room_id = get_room_id_for_query(room);
     let response = await fetch(
-      `${get_api_base()}/getlist?p=${page}&order_mode=${submode}&room_id=${
-        window.config.show_all_rooms ? '' : window.config.room
-      }`,
+      `${get_api_base()}/getlist?p=${page}&order_mode=${submode}&room_id=${room_id}`,
       {
         headers: { 'User-Token': token },
       },
@@ -199,11 +202,12 @@ export const API = {
     return handle_response(response);
   },
 
-  get_search: async (page, keyword, token, submode) => {
+  get_search: async (page, keyword, token, submode, room) => {
+    const room_id = get_room_id_for_query(room);
     let response = await fetch(
-      `${get_api_base()}/search?search_mode=${submode}&page=${page}&room_id=${
-        window.config.show_all_rooms ? '' : window.config.room
-      }&keywords=${encodeURIComponent(keyword)}&pagesize=${SEARCH_PAGESIZE}`,
+      `${get_api_base()}/search?search_mode=${submode}&page=${page}&room_id=${room_id}&keywords=${encodeURIComponent(
+        keyword,
+      )}&pagesize=${SEARCH_PAGESIZE}`,
       {
         headers: { 'User-Token': token },
       },

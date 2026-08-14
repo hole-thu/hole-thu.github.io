@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import './Config.css';
+import { DEFAULT_ROOM_ID, normalize_room } from './rooms';
 
 const BUILTIN_IMGS = {
   'https://cdn.jsdelivr.net/gh/thuhole/webhole@gh-pages/static/bg/gbp.jpg':
@@ -32,7 +33,7 @@ const DEFAULT_CONFIG = {
   block_cw: ['xxg', 'zzxg'],
   block_words_v4: ['🕷️', '[系统自动代发]'],
   whitelist_cw: [],
-  room: process.env.REACT_APP_ROOM_ID,
+  room: process.env.REACT_APP_ROOM_ID || DEFAULT_ROOM_ID,
 };
 
 export function load_config() {
@@ -56,6 +57,8 @@ export function load_config() {
       config['block_words_v4'],
     );
   }
+
+  config.room = normalize_room(config.room);
 
   console.log('config loaded', config);
   window.config = config;
@@ -218,57 +221,6 @@ class ConfigColorScheme extends PureComponent {
   }
 }
 
-class ConfigRoomId extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      room: window.config.room,
-    };
-  }
-
-  save_changes() {
-    this.props.callback({
-      room: this.state.room,
-    });
-  }
-
-  on_select(e) {
-    let value = e.target.value;
-    this.setState(
-      {
-        room: value,
-      },
-      this.save_changes.bind(this),
-    );
-  }
-
-  render() {
-    return (
-      <div>
-        <p>
-          <b>分区编号：</b>
-          <select
-            className="config-select"
-            value={this.state.room}
-            onChange={this.on_select.bind(this)}
-          >
-            <option value="0">0区(默认分区)</option>
-            <option value="1">1区(友善分区)</option>
-            <option value="2">2区</option>
-            <option value="3">3区</option>
-            <option value="4">4区</option>
-            <option value="5">5区</option>
-          </select>
-          &nbsp;<small>#room</small>
-        </p>
-        <p className="config-description">
-          选择分区编号，会作为发言时的分区和影响查看到的内容
-        </p>
-      </div>
-    );
-  }
-}
-
 class ConfigTextArea extends PureComponent {
   constructor(props) {
     super(props);
@@ -416,13 +368,11 @@ export class ConfigUI extends PureComponent {
             callback={this.save_changes_bound}
           />
           <hr />
-          <ConfigRoomId id="room" callback={this.save_changes_bound} />
-          <hr />
           <ConfigSwitch
             callback={this.save_changes_bound}
             id="show_all_rooms"
             name="展示所有分区"
-            description="展示来自所有分区而非仅当前分区的洞"
+            description="展示来自所有分区而非仅当前分区的洞（仅对部分分区生效）"
           />
           <hr />
           <ConfigSwitch

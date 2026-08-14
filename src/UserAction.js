@@ -584,7 +584,7 @@ export class PostForm extends Component {
       text: text,
       allow_search: allow_search ? '1' : '',
       use_title: use_title ? '1' : '',
-      room_id: window.config.room,
+      room_id: this.props.room,
     });
     if (has_poll) {
       poll_options.forEach((opt) => {
