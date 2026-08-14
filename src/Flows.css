@@ -410,7 +410,7 @@
 
 .flow-filter-row {
   display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr);
+  grid-template-columns: 2rem minmax(0, 1fr);
   align-items: baseline;
   column-gap: 0.3rem;
 }
@@ -458,8 +458,8 @@
 
 .flow-custom-room input,
 .root-dark-mode .flow-custom-room input {
-  width: 6em;
-  padding: 0 0.5em;
+  width: 4em;
+  padding: 0 0.25em;
   border: 0;
   border-bottom: 1px solid currentColor;
   border-radius: 0;

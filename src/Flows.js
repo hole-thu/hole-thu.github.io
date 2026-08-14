@@ -1640,7 +1640,7 @@ export class Flow extends PureComponent {
                   max={MAX_ROOM_ID}
                   step="1"
                   required
-                  placeholder="其他分区号"
+                  placeholder="自定义"
                   value={custom_room}
                   onChange={(event) => {
                     this.setState({ custom_room: event.target.value });
