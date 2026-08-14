@@ -390,37 +390,69 @@
   position: relative;
 }
 
-.flow-submode-choice {
+.flow-filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  padding: 0.55em 0.75em;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 7px;
+  background-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(4px);
+  color: white;
+}
+
+.root-dark-mode .flow-filter-panel {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.flow-filter-row {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 0.3rem;
+}
+
+.flow-filter-label {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75em;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.flow-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3em 0.25em;
+  min-width: 0;
+}
+
+.flow-room-options {
+  font-size: 0.85em;
+}
+
+.flow-filter-options a {
   display: inline-block;
+  padding: 0.12em 0.35em;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: nowrap;
+  transition: color 0.12s ease;
+}
+
+.flow-filter-options a:hover {
   color: white;
 }
 
-.flow-submode-choice a {
-  margin: 10px;
+.flow-filter-options a.choiced {
   color: white;
-}
-
-.flow-submode-choice a.choiced {
-  margin: 10px;
-  color: white;
-  font-weight: bold;
-}
-
-.flow-room-choice {
-  display: block;
-  padding-left: 10px;
-  font-size: smaller;
-}
-
-.flow-room-choice a,
-.flow-room-choice a.choiced {
-  display: inline-block;
-  margin: 0 15px 0 0;
+  font-weight: 700;
 }
 
 .flow-custom-room {
   display: inline-block;
-  margin: 0 15px 0 0;
   vertical-align: baseline;
 }
 
@@ -451,8 +483,9 @@
   appearance: none;
 }
 
-.flow-room-choice + .flow-submode-choice {
-  margin-top: 0.75em;
+.flow-custom-room.choiced input {
+  border-bottom-width: 2px;
+  font-weight: 600;
 }
 
 .danger-info {
