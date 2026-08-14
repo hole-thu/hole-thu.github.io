@@ -388,6 +388,7 @@
 
 .flow-container {
   position: relative;
+  margin-top: 0.5em;
 }
 
 .flow-filter-panel {

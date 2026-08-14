@@ -33,21 +33,17 @@
 }
 
 .title-line {
-  color: #fff;
   margin-top: 1em;
 }
-.title-line::before,
-.title-line::after {
-  background-color: #fff;
-  box-shadow: 0 1px 1px #000;
+
+.centered-line.title-line {
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.root-dark-mode .title-line {
-  color: var(--foreground-dark);
-}
-.root-dark-mode .title-line::before,
-.root-dark-mode .title-line::after {
-  background-color: var(--foreground-dark);
+.centered-line.title-line::before,
+.centered-line.title-line::after {
+  background-color: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 }
 
 .app-switcher {
