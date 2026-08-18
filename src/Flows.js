@@ -1608,48 +1608,50 @@ export class Flow extends PureComponent {
           />
         )}
         <nav className="aux-margin flow-filter-panel" aria-label="内容筛选">
-          <div className="flow-filter-row">
-            <span className="flow-filter-label">分区</span>
-            <div className="flow-filter-options flow-room-options">
-              {ROOMS.map(({ id, name }) => (
-                <a
-                  href="###"
-                  key={id}
-                  className={`no-underline${room === id ? ' choiced' : ''}`}
-                  aria-current={room === id ? 'page' : undefined}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    this.setState({ custom_room: '' });
-                    set_room(id);
-                  }}
+          {mode !== 'attention' && (
+            <div className="flow-filter-row">
+              <span className="flow-filter-label">分区</span>
+              <div className="flow-filter-options flow-room-options">
+                {ROOMS.map(({ id, name }) => (
+                  <a
+                    href="###"
+                    key={id}
+                    className={`no-underline${room === id ? ' choiced' : ''}`}
+                    aria-current={room === id ? 'page' : undefined}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      this.setState({ custom_room: '' });
+                      set_room(id);
+                    }}
+                  >
+                    {name}
+                  </a>
+                ))}
+                <form
+                  className={`flow-custom-room${
+                    is_builtin_room(room) ? '' : ' choiced'
+                  }`}
+                  onSubmit={this.set_custom_room.bind(this)}
                 >
-                  {name}
-                </a>
-              ))}
-              <form
-                className={`flow-custom-room${
-                  is_builtin_room(room) ? '' : ' choiced'
-                }`}
-                onSubmit={this.set_custom_room.bind(this)}
-              >
-                <input
-                  aria-label="其他分区号"
-                  name="room_id"
-                  type="number"
-                  min="0"
-                  max={MAX_ROOM_ID}
-                  step="1"
-                  required
-                  placeholder="自定义"
-                  value={custom_room}
-                  onChange={(event) => {
-                    this.setState({ custom_room: event.target.value });
-                  }}
-                  onBlur={this.set_custom_room.bind(this)}
-                />
-              </form>
+                  <input
+                    aria-label="其他分区号"
+                    name="room_id"
+                    type="number"
+                    min="0"
+                    max={MAX_ROOM_ID}
+                    step="1"
+                    required
+                    placeholder="自定义"
+                    value={custom_room}
+                    onChange={(event) => {
+                      this.setState({ custom_room: event.target.value });
+                    }}
+                    onBlur={this.set_custom_room.bind(this)}
+                  />
+                </form>
+              </div>
             </div>
-          </div>
+          )}
           {show_submode_choice && (
             <div className="flow-filter-row">
               <span className="flow-filter-label">模式</span>
